@@ -1,24 +1,28 @@
 # CAN Bus Communication Simulator
 
-This project simulates CAN (Controller Area Network) communication between multiple Electronic Control Units (ECUs) in an automotive environment.
+A Python-based simulation of CAN (Controller Area Network) communication between multiple Electronic Control Units (ECUs).
 
-The simulator models:
-- CAN Frames
+## Features
+
+- CAN Frame Simulation
 - ECU Communication
 - Message Broadcasting
-- CAN Bus Architecture
+- Message Metadata (ID, Sender, Timestamp)
 
-Upcoming Features:
+## Architecture
+
+ECU → CAN Bus → ECU
+
+## Future Features
+
 - CAN Arbitration
 - Priority Handling
-- Multithreaded ECU Simulation
-- Error Detection and Recovery
-- Real-Time Dashboard
+- Multi-threaded ECU Simulation
+- Error Detection
+- Dashboard Visualization
 
 ## Technologies
-- Python
-- Object-Oriented Programming
-- Automotive Communication Concepts
 
-## Author
-Adam Ashish A
+- Python
+- OOP
+- Automotive Communication Concepts

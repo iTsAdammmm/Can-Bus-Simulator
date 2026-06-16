@@ -5,10 +5,19 @@ class CANBus:
     def connect(self,ecu):
         self.ecus.append(ecu)
 
-    def transmit(self, message):
-        print(
-            f"\nTransmitting -> {message}"
+    def queue_message(self,message):
+        self.pending_messages.append(message)
+
+    def process_bus(self):
+        self.pending_messages.sort(
+            key=lambda msg: msg.message.id
         )
+        winner = self.pending_messages[0]
+
+        print(f"\nWinner: {winner}")
+
         for ecu in self.ecus:
-            if ecu.name != message.sender:
-                ecu.receive_message(message)
+            if ecu.name != winner.sender:
+                ecu.receive_message(winner)
+
+        self.pending_messages.clear()
