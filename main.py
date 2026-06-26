@@ -1,17 +1,19 @@
 from can_bus import CANBus
 from ecu import ECU
-from message import CANMessage
+
 
 bus = CANBus()
 
-engine = ECU("Engine ECU")
-brake = ECU("Brake ECU")
-dashboard = ECU("Dashboard ECU")
+engine = ECU("Engine ECU", bus)
+brake = ECU("Brake ECU", bus)
+dashboard = ECU("Dashboard ECU", bus)
 
 bus.connect(engine)
 bus.connect(brake)
 bus.connect(dashboard)
 
-message = CANMessage(100, "Engine ECU", "Speed=80")
+engine.start()
+brake.start()
+dashboard.start()
 
-bus.transmit(message)
+bus.start()
