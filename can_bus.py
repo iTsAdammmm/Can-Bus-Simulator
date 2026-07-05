@@ -1,4 +1,5 @@
 import time
+from threading import Lock
 
 
 class CANBus:
@@ -6,33 +7,36 @@ class CANBus:
     def __init__(self):
         self.ecus = []
         self.pending_messages = []
+        self.lock= Lock()
 
     def connect(self, ecu):
         self.ecus.append(ecu)
 
     def queue_message(self, message):
-        self.pending_messages.append(message)
+        with self.lock:
+            self.pending_messages.append(message)
 
     def process_bus(self):
 
-        if not self.pending_messages:
-            return
+        with self.lock:    
+            if not self.pending_messages:
+                return
 
-        self.pending_messages.sort(
-            key=lambda msg: msg.message_id
-        )
+            self.pending_messages.sort(
+                key=lambda msg: msg.message_id
+            )
 
-        winner = self.pending_messages[0]
+            winner = self.pending_messages[0]
 
-        print("\n==============================")
-        print(f"Winner -> {winner}")
-        print("==============================")
+            print("\n==============================")
+            print(f"Winner -> {winner}")
+            print("==============================")
 
-        for ecu in self.ecus:
-            if ecu.name != winner.sender:
-                ecu.receive_message(winner)
+            for ecu in self.ecus:
+                if ecu.name != winner.sender:
+                    ecu.receive_message(winner)
 
-        self.pending_messages.clear()
+            self.pending_messages.clear()
 
     def start(self):
 
