@@ -1,0 +1,31 @@
+TIMESTAMP		ID	SENDER		DATA		DLC	STATUS
+
+[21:16:22.828] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x200']
+[21:16:22.830]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[41] DLC=1 CRC=0xDF  [OK]
+
+[21:16:23.831] ARBITRATION -> won by 0x200 (Engine ECU) | lost: ['0x300']
+[21:16:23.832]  DELIVERED  ID=0x200 Sender=Engine ECU   Data=[7, 126] DLC=2 CRC=0x16  [OK]
+
+[21:16:24.834] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300', '0x200']
+[21:16:24.836]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[35] DLC=1 CRC=0xE9  [OK]
+
+[21:16:25.838] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300', '0x200']
+[21:16:25.856]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[99] DLC=1 CRC=0x2E  [OK]
+
+[21:16:26.858] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300', '0x200']
+[21:16:26.859]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[148] DLC=1 CRC=0xE5  [OK]
+
+[21:16:27.861] ARBITRATION -> won by 0x200 (Engine ECU) | lost: ['0x300']
+[21:16:27.863]  DELIVERED  ID=0x200 Sender=Engine ECU   Data=[9, 220] DLC=2 CRC=0xA7  [OK]
+
+[21:16:28.865] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300']
+[21:16:28.866]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[241] DLC=1 CRC=0xD9  [OK]
+
+[21:16:29.867] ARBITRATION -> won by 0x200 (Engine ECU) | lost: ['0x300']
+[21:16:29.868]  DELIVERED  ID=0x200 Sender=Engine ECU   Data=[19, 187] DLC=2 CRC=0x40  [OK]
+
+[21:16:30.870] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300', '0x200']
+[21:16:30.871]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[124] DLC=1 CRC=0x73  [OK]
+
+[21:16:31.873] ARBITRATION -> won by 0x100 (Brake ECU) | lost: ['0x300', '0x200']
+[21:16:31.875]  DELIVERED  ID=0x100 Sender=Brake ECU    Data=[143] DLC=1 CRC=0xA4  [OK]
