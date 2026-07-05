@@ -6,12 +6,21 @@ A Python-based simulation of CAN (Controller Area Network) communication between
 
 - CAN Frame Simulation
 - ECU Communication
-- Message Broadcasting
-- Message Metadata (ID, Sender, Timestamp)
+- CAN Arbitration
+- Multithreaded ECU Simulation
+- Mutex-based Thread Safety
 
 ## Architecture
 
-ECU → CAN Bus → ECU
+ECU Threads
+     ↓
+Message Queue
+     ↓
+CAN Bus
+     ↓
+Arbitration
+     ↓
+Broadcast
 
 ## Future Features
 
