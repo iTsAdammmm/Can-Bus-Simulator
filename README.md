@@ -57,6 +57,40 @@ python3 main.py
 Runs indefinitely, printing live bus activity. Press Ctrl+C to stop. Check
 `can_trace.log` afterward for the full trace.
 
+### Optional: bridge onto a real/virtual CAN interface (SocketCAN)
+
+On a Linux machine (not inside a restricted sandbox/container), you can bridge
+this simulator onto a real `vcan0` virtual CAN interface so standard Linux CAN
+tooling (`candump`, `cansend`) can observe and inject traffic:
+
+```bash
+pip install python-can
+
+sudo modprobe vcan
+sudo ip link add dev vcan0 type vcan
+sudo ip link set up vcan0
+
+python3 main.py --socketcan
+```
+
+Then in another terminal:
+
+```bash
+candump vcan0
+```
+
+You'll see every frame this simulator delivers appear on the real interface,
+in standard CAN trace format, alongside this project's own console/log
+output. You can also inject a frame manually from the other terminal and this
+program will print it:
+
+```bash
+cansend vcan0 123#DEADBEEF
+```
+
+If `vcan0` isn't set up yet, `--socketcan` will print clear setup instructions
+and fall back to pure simulation instead of crashing.
+
 ## Files
 
 | File | Purpose |
@@ -65,7 +99,8 @@ Runs indefinitely, printing live bus activity. Press Ctrl+C to stop. Check
 | `can_bus.py` | `CANBus` class: message queueing, bit-level arbitration, CRC error handling |
 | `ecu.py` | `ECU` class (a thread per node) + realistic signal generators (RPM, brake pressure, status) |
 | `logger.py` | `CANLogger`: Wireshark-style console + file trace |
-| `main.py` | Wires up the bus and 3 ECUs with a realistic CAN ID map |
+| `socketcan_bridge.py` | Optional bridge onto a real Linux SocketCAN interface via `python-can` |
+| `main.py` | Wires up the bus and 3 ECUs; `--socketcan` flag enables the bridge |
 
 ## Known simplifications (vs. real CAN)
 
@@ -77,12 +112,19 @@ Runs indefinitely, printing live bus activity. Press Ctrl+C to stop. Check
 
 ## Possible next steps
 
-- Interface with Linux SocketCAN (`vcan0`) so real CAN tooling (`candump`, `cansend`)
-  can observe this simulator's traffic.
 - Add a simple live dashboard (matplotlib or a small web UI) visualizing bus load and
   arbitration outcomes over time.
 - Track error counters per ECU and simulate a bus-off state for a node that racks up
   too many CRC errors.
+- Feed frames received from the SocketCAN listener back into the simulated ECUs
+  instead of just printing them, so external tools can fully participate in the
+  simulation.
+
+## Requirements
+
+- Python 3
+- `python-can` (only needed for `--socketcan`): `pip install python-can`
+- Linux with the `vcan` kernel module, for `--socketcan` only
 
 ## Technologies
 

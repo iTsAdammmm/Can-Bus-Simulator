@@ -15,11 +15,15 @@ ID_BIT_WIDTH = 11
 
 class CANBus:
 
-    def __init__(self):
+    def __init__(self, socketcan_bridge=None):
         self.ecus = []
         self.pending_messages = []
         self.lock = Lock()
         self.logger = CANLogger()
+        # Optional: mirror every successfully delivered frame onto a real/
+        # virtual CAN interface via python-can (see socketcan_bridge.py).
+        # None means "pure simulation, no OS-level CAN interface".
+        self.socketcan_bridge = socketcan_bridge
 
     def connect(self, ecu):
         self.ecus.append(ecu)
@@ -106,6 +110,8 @@ class CANBus:
             return
 
         self.logger.log_delivery(frame_on_wire)
+        if self.socketcan_bridge is not None:
+            self.socketcan_bridge.send(frame_on_wire)
         for ecu in self.ecus:
             if ecu.name != message.sender:
                 ecu.receive_message(frame_on_wire)
